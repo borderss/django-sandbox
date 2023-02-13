@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django import forms
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
@@ -12,6 +13,9 @@ class Question(models.Model):
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+    def get_choices(self):
+        return Choice.objects.filter(question=self)
 
 
 class Choice(models.Model):
